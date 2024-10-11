@@ -2,7 +2,7 @@
 
 How to update the script with your locations
 1. Update the
-```$sourceFolder1 = "your WTF folder Location"```
+```$sourceFolder1 = "your WTF folder Location"``` \n
 ```$sourceFolder2 = "your interface folder location"```
 ```$destinationFolder = "where you want to store your backups"```
 
