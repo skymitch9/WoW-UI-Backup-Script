@@ -1,11 +1,24 @@
-# Variables for the folders to copy and zip
-$interfaceFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\Interface"
-$wtfFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\WTF"
+# Function to prompt the user to select a folder
+function Select-Folder {
+    param (
+        [string]$message
+    )
+    $folder = New-Object -ComObject Shell.Application | ForEach-Object { $_.BrowseForFolder(0, $message, 0).self.Path }
+    return $folder
+}
 
-# Variables for the folders to copy and zip
-#$interfaceFolder = "C:\Users\nbasl\OneDrive\Documents\Interface"
-#$wtfFolder = "C:\Users\nbasl\OneDrive\Documents\WTF"
-$destinationFolder = "C:\Users\nbasl\OneDrive\Documents\wowUIBackups"
+# Prompt the user to select the Interface and WTF folders
+$interfaceFolder = Select-Folder -message "Select the folder where Interface is located"
+$wtfFolder = Select-Folder -message "Select the folder where WTF is located"
+
+# Prompt the user to select the backup destination folder
+$destinationFolder = Select-Folder -message "Select the destination folder for the backup"
+
+# Check if the user selected folders correctly
+if (-not $interfaceFolder -or -not $wtfFolder -or -not $destinationFolder) {
+    Write-Output "Folder selection was canceled. Exiting script."
+    exit
+}
 
 # Get current date and time for the new folder name
 $date = Get-Date -Format "yyyy-MM-dd"
@@ -44,3 +57,6 @@ Zip-Folder -source $newDestinationFolder -destination $zipFile
 
 # Clean up copied folders after zipping (optional)
 Remove-Item $newDestinationFolder -Recurse -Force
+
+# Notify the user that the backup is complete
+Write-Output "Backup completed successfully. Zip file saved to: $zipFile"
