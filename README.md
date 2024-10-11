@@ -1,4 +1,4 @@
-# wowUpdate
+# WOW Update
 
 How to Schedule This Script:
 Save the script as wowBackup.ps1.
