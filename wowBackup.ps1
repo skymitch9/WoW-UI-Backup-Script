@@ -1,21 +1,31 @@
 # Variables for the folders to copy and zip
 $interfaceFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\Interface"
 $wtfFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\WTF"
+
+# Variables for the folders to copy and zip
+#$interfaceFolder = "C:\Users\nbasl\OneDrive\Documents\Interface"
+#$wtfFolder = "C:\Users\nbasl\OneDrive\Documents\WTF"
 $destinationFolder = "C:\Users\nbasl\OneDrive\Documents\wowUIBackups"
 
+# Get current date and time for the new folder name
+$date = Get-Date -Format "yyyy-MM-dd"
+$time = Get-Date -Format "HHmm"
+$newFolderName = "wowUI_${date}_$time"
+$newDestinationFolder = "$destinationFolder\$newFolderName"
+
 # Ensure the destination folder exists
-if (!(Test-Path $destinationFolder)) {
-    New-Item -ItemType Directory -Path $destinationFolder
+if (!(Test-Path $newDestinationFolder)) {
+    New-Item -ItemType Directory -Path $newDestinationFolder
 }
 
-# Get current date for the zip file names
-$date = Get-Date -Format "yyyy-MM-dd"
+# Copy the folders into the new destination folder
+Copy-Item -Path $interfaceFolder -Destination "$newDestinationFolder\Interface" -Recurse
+Copy-Item -Path $wtfFolder -Destination "$newDestinationFolder\WTF" -Recurse
 
-# Define the zip file names
-$interfaceZip = "$destinationFolder\Interface_Backup_$date.zip"
-$wtfZip = "$destinationFolder\WTF_Backup_$date.zip"
+# Define the zip file name for both folders together
+$zipFile = "$destinationFolder\wowUI_Backup_${date}_$time.zip"
 
-# Function to zip a folder
+# Function to zip the folder
 function Zip-Folder {
     param (
         [string]$source,
@@ -29,14 +39,8 @@ function Zip-Folder {
     }
 }
 
-# Copy and zip the folders
-Copy-Item -Path $interfaceFolder -Destination "$destinationFolder\Interface" -Recurse
-Copy-Item -Path $wtfFolder -Destination "$destinationFolder\WTF" -Recurse
-
-# Zip the copied folders
-Zip-Folder -source "$destinationFolder\Interface" -destination $interfaceZip
-Zip-Folder -source "$destinationFolder\WTF" -destination $wtfZip
+# Zip the entire wowUI folder, including both Interface and WTF folders
+Zip-Folder -source $newDestinationFolder -destination $zipFile
 
 # Clean up copied folders after zipping (optional)
-Remove-Item "$destinationFolder\Interface" -Recurse -Force
-Remove-Item "$destinationFolder\WTF" -Recurse -Force
+Remove-Item $newDestinationFolder -Recurse -Force
