@@ -2,8 +2,8 @@
 
 How to update the script with your locations
 1. Update these variables in lines 2,3,and 4 by right click editting the script <br>
-```$sourceFolder1 = "your WTF folder Location"``` <br>
-```$sourceFolder2 = "your interface folder location"``` <br>
+```interfaceFolder = "your WTF folder Location"``` <br>
+```$wtfFolder = "your interface folder location"``` <br>
 ```$destinationFolder = "where you want to store your backups"``` <br>
 
 How to Schedule This Script:

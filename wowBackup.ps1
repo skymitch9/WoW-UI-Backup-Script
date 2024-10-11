@@ -1,11 +1,7 @@
 # Variables for the folders to copy and zip
-$interfaceFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\Interface"
-$wtfFolder = "G:\BlizzardLibrary\World of Warcraft\_retail_\WTF"
-
-# Variables for the folders to copy and zip
-#$interfaceFolder = "C:\Users\nbasl\OneDrive\Documents\Interface"
-#$wtfFolder = "C:\Users\nbasl\OneDrive\Documents\WTF"
-$destinationFolder = "C:\Users\nbasl\OneDrive\Documents\wowUIBackups"
+$interfaceFolder = "Path to your Interface Folder"
+$wtfFolder = "Path to your WTF folder"
+$destinationFolder = "Path to wherever you want your back up to exist"
 
 # Get current date and time for the new folder name
 $date = Get-Date -Format "yyyy-MM-dd"
