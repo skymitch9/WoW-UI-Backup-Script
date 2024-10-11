@@ -1,10 +1,10 @@
 # WOW Update
 
 How to update the script with your locations
-1. Update the
-```$sourceFolder1 = "your WTF folder Location"``` \n
-```$sourceFolder2 = "your interface folder location"```
-```$destinationFolder = "where you want to store your backups"```
+1. Update these variables in lines 2,3,and 4 by right click editting the script
+```$sourceFolder1 = "your WTF folder Location"``` <br>
+```$sourceFolder2 = "your interface folder location"``` <br>
+```$destinationFolder = "where you want to store your backups"``` <br>
 
 How to Schedule This Script:
 1. Save the script as wowBackup.ps1.
