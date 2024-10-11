@@ -1,10 +1,14 @@
 # WOW Update
 
 How to update the script with your locations
-1. Update these variables in lines 2,3,and 4 by right click editting the script <br>
-```$sourceFolder1 = "your WTF folder Location"``` <br>
-```$sourceFolder2 = "your interface folder location"``` <br>
+1. Download Script
+2. right click edit in any editor (notepad, npp, powershell)
+3. Update these variables in lines 2,3,and 4 by right click editting the script <br>
+```interfaceFolder = "your Interface folder Location"``` <br>
+```$wtfFolder = "your WTF folder location"``` <br>
 ```$destinationFolder = "where you want to store your backups"``` <br>
+4. run powershell as administrator and enter this line ```Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass``` <br>
+5. enter command ```.\wowBackup.ps1``` while cd'd into folder location
 
 How to Schedule This Script:
 1. Save the script as wowBackup.ps1.
