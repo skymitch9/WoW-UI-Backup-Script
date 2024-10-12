@@ -22,8 +22,7 @@ You no longer need to manually update folder paths! The script will now prompt y
 - Press `Win + X` and select **Windows PowerShell (Admin)**.
 
 #### Temporarily bypass the script execution policy to allow it to run:
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
+```powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
 
 ## ⏰ Step 2: Schedule the Script to Run Automatically
 
