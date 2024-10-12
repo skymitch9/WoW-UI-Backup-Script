@@ -24,7 +24,7 @@ You no longer need to manually update folder paths! The script will now prompt y
 #### Temporarily bypass the script execution policy to allow it to run:
 ```powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
 
-
+<br> <br>
 ## ⏰ Step 2: Schedule the Script to Run Automatically
 
 ### Save the Script
