@@ -1,9 +1,19 @@
 # 💾 How to Update and Schedule Your WoW Backup Script
 
-## ✏️ Step 1: Download and Edit the Script
+## ✏️ Step 1: Download and Run the Script
 
-### Download the Script
-First, grab the `wowBackup.ps1` script and save it to your local machine.
+### Download the Script from GitHub
+1. Navigate to the GitHub repository where the `wowBackup.ps1` script is hosted.
+2. Locate the `wowBackup.ps1` file in the repository.
+3. To download the file:
+   - Click on the file name `wowBackup.ps1`.
+   - Click the **Raw** button to view the script in plain text.
+   - Right-click on the page and select **Save As** to save the file to your local machine.
+   - Save the file with the `.ps1` extension (e.g., `wowBackup.ps1`).
+
+   Alternatively, you can:
+   - Click the **Download ZIP** button (if available) in the repository to download all files.
+   - Extract the ZIP and locate the `wowBackup.ps1` script.
 
 ### Edit the Script to Match Your Folders
 You no longer need to manually update folder paths! The script will now prompt you to select your `Interface` and `WTF` folders and choose a backup destination. Here's how you can use the script:
@@ -22,7 +32,8 @@ You no longer need to manually update folder paths! The script will now prompt y
 - Press `Win + X` and select **Windows PowerShell (Admin)**.
 
 #### Temporarily bypass the script execution policy to allow it to run:
-```powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
 
 <br> 
 
