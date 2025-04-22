@@ -1,0 +1,47 @@
+name: Create WoW Backup Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        id: prep
+        run: |
+          # Use current date-time to generate unique tag version
+          VERSION="v$(date +'%Y.%m.%d-%H%M%S')"
+          echo "version_tag=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create ZIP archive
+        run: |
+          mkdir release
+          cp wowBackup.ps1 run_wow_backup.bat README.md release/
+          cd release
+          zip -r ../WoWBackup_${{ steps.prep.outputs.version_tag }}.zip .
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag ${{ steps.prep.outputs.version_tag }}
+          git push origin ${{ steps.prep.outputs.version_tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.prep.outputs.version_tag }}
+          name: WoW Backup ${{ steps.prep.outputs.version_tag }}
+          files: WoWBackup_${{ steps.prep.outputs.version_tag }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

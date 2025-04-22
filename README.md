@@ -1,79 +1,68 @@
-# 💾 How to Update and Schedule Your WoW Backup Script
+💾 WoW Backup Script & Scheduler
 
-## ✏️ Step 1: Download and Run the Script
+📦 About This Script
 
-### Download the Script from GitHub
-1. Navigate to the GitHub repository where the `wowBackup.ps1` script is hosted.
-2. Locate the `wowBackup.ps1` file in the repository.
-3. To download the file:
-   - Click on the file name `wowBackup.ps1`.
-   - Click the **Raw** button to view the script in plain text.
-   - Right-click on the page and select **Save As** to save the file to your local machine.
-   - Save the file with the `.ps1` extension (e.g., `wowBackup.ps1`).
+    This backup tool creates timestamped .zip archives of your World of Warcraft Interface and WTF folders. 
+    It runs interactively or on a schedule, with admin elevation handled automatically via a batch launcher.
 
-   Alternatively, you can:
-   - Click the **Download ZIP** button (if available) in the repository to download all files.
-   - Extract the ZIP and locate the `wowBackup.ps1` script.
+🚀 Quick Start
+## 📦 Download and Use the WoW Backup Script
 
-### Edit the Script to Match Your Folders
-You no longer need to manually update folder paths! The script will now prompt you to select your `Interface` and `WTF` folders and choose a backup destination. Here's how you can use the script:
+1. Go to the [Releases](../../releases) section of this repository.
+2. Download the latest `WoWBackup_<version>.zip` file.
+3. Extract the contents to a folder of your choice.
+4. Double-click `run_wow_backup.bat` to launch the backup script with administrator privileges.
 
-1. **Select Folders When Running the Script**:
-   - Upon execution, the script will prompt you to select the folder locations for your:
-     - **Interface folder**
-     - **WTF folder**
-     - **Backup destination folder**
+✅ Run It:
 
-2. **Save the changes** if you made any modifications to the script, and you're ready to run it.
+    Double-click run_wow_backup.bat — it will launch wowBackup.ps1 with admin rights.
 
-### Run the Script Manually
+    Follow the prompts to:
 
-#### Open PowerShell as Administrator:
-- Press `Win + X` and select **Windows PowerShell (Admin)**.
+        Select folders
 
-#### Temporarily bypass the script execution policy to allow it to run:
-```powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
+        Choose a backup destination
 
-<br> 
+        Optionally schedule automatic backups
 
-## ⏰ Step 2: Schedule the Script to Run Automatically
+⏰ Scheduling Behavior (Automated)
 
-### Save the Script
-Make sure the script is saved as `wowBackup.ps1` on your system.
+    If you opt in, the script will:
 
-### Open Task Scheduler
-1. Press `Win + S`, type **Task Scheduler**, and open it.
+        Ask for frequency (daily/weekly)
 
-### Create a New Task
-1. In the **Actions** pane, click **Create Task**.
+        Ask for time of day (24-hour format)
 
-### Configure the Task
+        Register a Task Scheduler task named WowUI_Backup
 
-#### In the **General** tab:
-1. Give your task a name (e.g., "WoW Backup Script").
-2. Choose **Run whether user is logged on or not**.
+🔁 Resetting or Reconfiguring
 
-#### In the **Triggers** tab:
-1. Click **New**.
-2. Set the schedule for your task (e.g., weekly or daily).
+To reconfigure:
 
-#### In the **Actions** tab:
-1. Click **New**.
-2. In **Program/script**, enter:
-    ```powershell
-    powershell.exe
-    ```
-3. In the **Add arguments (optional)** field, enter:
-    ```powershell
-    -File "C:\Path\To\wowBackup.ps1"
-    ```
+    Delete the file: wowUI_config.json
 
-#### In the **Conditions** tab:
-1. Uncheck **Start the task only if the computer is on AC power** if you want it to run on battery.
+    Re-run run_wow_backup.bat
 
-#### In the **Settings** tab:
-1. Make sure **Allow task to be run on demand** is checked.
+This will let you choose folders again and reconfigure the scheduler.
 
-### Save and Enable
-1. Click **OK**.
-2. If prompted, enter your Windows password to allow the task to run with elevated privileges.
+💡 Pro Tips
+
+    Backups are saved as zip files in your chosen destination folder
+
+    Backups are timestamped like: wowUI_Backup_2025-04-16_2205.zip
+
+    Old backups are never overwritten (you can prune them manually if needed)
+
+🧹 Uninstalling / Removing the Task
+
+To remove the scheduled task manually:
+
+Run in Powershell as admin: Unregister-ScheduledTask -TaskName "WowUI_Backup" -Confirm:$false
+
+To reset everything, delete:
+
+    wowUI_config.json
+
+    The scheduled task (WowUI_Backup)
+
+    Any backup .zip files
