@@ -10,16 +10,14 @@ File	Description
 wowBackup.ps1	The main PowerShell script. Prompts folder selection, creates a backup, and offers to schedule itself.
 run_wow_backup.bat	Launches wowBackup.ps1 with administrator rights — required for scheduling.
 wowUI_config.json	Generated on first run. Stores your chosen folders and scheduling status.
-🚀 Quick Start (GitHub ZIP Release)
-✅ Download from GitHub Releases:
 
-    Go to the Releases section of the repository.
+🚀 Quick Start
+## 📦 Download and Use the WoW Backup Script
 
-    Download the latest .zip package (e.g., WoWBackup_v1.0.zip).
-
-    Extract the ZIP into a folder such as:
-
-    C:\WoWBackup
+1. Go to the [Releases](../../releases) section of this repository.
+2. Download the latest `WoWBackup_<version>.zip` file.
+3. Extract the contents to a folder of your choice.
+4. Double-click `run_wow_backup.bat` to launch the backup script with administrator privileges.
 
 ✅ Run It:
 
