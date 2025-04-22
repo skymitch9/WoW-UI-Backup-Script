@@ -16,17 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up environment
+      - name: Prepare release version
         id: prep
         run: |
-          # Use current date-time to generate unique tag version
           VERSION="v$(date +'%Y.%m.%d-%H%M%S')"
           echo "version_tag=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Create ZIP archive
+      - name: Create ZIP structure
         run: |
-          mkdir release
-          cp wowBackup.ps1 run_wow_backup.bat README.md release/
+          mkdir -p release/scripts
+          cp scripts/wowBackup.ps1 scripts/uninstall_wow_backup.ps1 release/scripts/
+          cp run_wow_backup.bat uninstall_run_wow_backup.bat README.md release/
           cd release
           zip -r ../WoWBackup_${{ steps.prep.outputs.version_tag }}.zip .
 
