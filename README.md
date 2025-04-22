@@ -2,7 +2,8 @@
 
 📦 How to Use This Script
 
-    This backup tool creates timestamped .zip archives of your World of Warcraft Interface and WTF folders. It runs interactively or on a schedule, with admin elevation handled automatically via a batch launcher.
+    This backup tool creates timestamped .zip archives of your World of Warcraft Interface and WTF folders. 
+    It runs interactively or on a schedule, with admin elevation handled automatically via a batch launcher.
 
 🧾 Files Included
 File	Description
