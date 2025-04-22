@@ -1,15 +1,9 @@
 💾 WoW Backup Script & Scheduler
 
-📦 How to Use This Script
+📦 About This Script
 
     This backup tool creates timestamped .zip archives of your World of Warcraft Interface and WTF folders. 
     It runs interactively or on a schedule, with admin elevation handled automatically via a batch launcher.
-
-🧾 Files Included
-File	Description
-wowBackup.ps1	The main PowerShell script. Prompts folder selection, creates a backup, and offers to schedule itself.
-run_wow_backup.bat	Launches wowBackup.ps1 with administrator rights — required for scheduling.
-wowUI_config.json	Generated on first run. Stores your chosen folders and scheduling status.
 
 🚀 Quick Start
 ## 📦 Download and Use the WoW Backup Script
