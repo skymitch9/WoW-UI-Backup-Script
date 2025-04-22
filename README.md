@@ -33,19 +33,6 @@ wowUI_config.json	Generated on first run. Stores your chosen folders and schedul
 
         Optionally schedule automatic backups
 
-⚙️ How to Use and Schedule Manually (Advanced)
-🖱️ Manual First-Time Setup:
-
-    left-click run_wow_backup.bat
-
-    Follow prompts to select:
-
-        Your Interface and WTF folder's parent
-
-        Where backups should be saved
-
-    Optionally choose to schedule automated backups (daily or weekly)
-
 ⏰ Scheduling Behavior (Automated)
 
     If you opt in, the script will:
@@ -56,10 +43,6 @@ wowUI_config.json	Generated on first run. Stores your chosen folders and schedul
 
         Register a Task Scheduler task named WowUI_Backup
 
-        Point the task to run_wow_backup.bat to ensure it runs elevated
-
-    ⚠️ Task Scheduler must point to the .bat file, not the .ps1, to ensure proper permissions and execution.
-
 🔁 Resetting or Reconfiguring
 
 To reconfigure:
@@ -69,6 +52,7 @@ To reconfigure:
     Re-run run_wow_backup.bat
 
 This will let you choose folders again and reconfigure the scheduler.
+
 💡 Pro Tips
 
     Backups are saved as zip files in your chosen destination folder
@@ -81,7 +65,7 @@ This will let you choose folders again and reconfigure the scheduler.
 
 To remove the scheduled task manually:
 
-Unregister-ScheduledTask -TaskName "WowUI_Backup" -Confirm:$false
+Run in Powershell as admin: Unregister-ScheduledTask -TaskName "WowUI_Backup" -Confirm:$false
 
 To reset everything, delete:
 

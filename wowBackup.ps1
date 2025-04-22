@@ -147,13 +147,13 @@ if (-not $config.Scheduled) {
             $config | ConvertTo-Json | Set-Content -Path $configPath
         
             Write-Output "Scheduled task '$taskName' has been created and will run $scheduleFrequency at $scheduleTime."
-            Write-Host "`nPress any key to close..."
+            Write-Host "`nCLick X in top right corner to close..."
             $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
             exit
         }
         catch {
             Write-Error "❌ Failed to create scheduled task: $_"
-            Write-Host "`nPress any key to close..."
+            Write-Host "`nCLick X in top right corner to close..."
             $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
             exit
         }
