@@ -1,5 +1,5 @@
 # Define path to config file
-$configPath = "$PSScriptRoot\wowUI_config.json"
+$configPath = Join-Path (Split-Path $PSScriptRoot -Parent) "wowUI_config.json"
 
 # Function to select folder
 function Select-Folder {
