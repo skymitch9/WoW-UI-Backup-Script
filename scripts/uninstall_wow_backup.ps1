@@ -26,5 +26,5 @@ if (Test-Path $configPath) {
     Write-Host "ℹ️ No config file found at: $configPath"
 }
 
-Write-Host "`n✅ Uninstall complete. Press any key to close..."
+Write-Host "`n✅ Uninstall complete. CLick X in top right corner to close..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
