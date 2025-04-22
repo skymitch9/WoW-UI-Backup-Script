@@ -20,13 +20,15 @@ function Load-Config {
 function Save-Config {
     param (
         [string]$parent,
-        [string]$destination
+        [string]$destination,
+        [bool]$scheduled = $false
     )
-    $config = @{
-        Parent = $parent
+    $newConfig = @{
+        Parent      = $parent
         Destination = $destination
+        Scheduled   = $scheduled
     }
-    $config | ConvertTo-Json | Set-Content -Path $configPath
+    $newConfig | ConvertTo-Json | Set-Content -Path $configPath
 }
 
 # Load or prompt for config
@@ -40,7 +42,8 @@ if (-not $config) {
         exit
     }
 
-    Save-Config -parent $parentFolder -destination $destinationFolder
+    Save-Config -parent $parentFolder -destination $destinationFolder -scheduled $false
+    $config = Load-Config
 } else {
     $parentFolder = $config.Parent
     $destinationFolder = $config.Destination
@@ -79,30 +82,80 @@ Remove-Item $newDestinationFolder -Recurse -Force
 
 Write-Output "Backup completed successfully. Zip saved to: $zipFile"
 
-# Ask if user wants to schedule it (only if config was just created)
-if (-not $config) {
+# Ask if user wants to schedule it (only if not already scheduled)
+if (-not $config.Scheduled) {
     $setupScheduler = Read-Host "Do you want to schedule this backup to run automatically? (yes/no)"
     if ($setupScheduler -eq "yes") {
         $taskName = "WowUI_Backup"
         $scriptPath = $MyInvocation.MyCommand.Definition
 
-        $scheduleFrequency = Read-Host "How often do you want to run the backup? (daily/weekly)"
-        $scheduleTime = Read-Host "Enter the time for the task to run (e.g., 15:00)"
-
-        if ($scheduleFrequency -eq "daily") {
-            $trigger = New-ScheduledTaskTrigger -Daily -At $scheduleTime
-        } elseif ($scheduleFrequency -eq "weekly") {
-            $dayOfWeek = Read-Host "Enter the day of the week (e.g., Monday)"
-            $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $dayOfWeek -At $scheduleTime
-        } else {
-            Write-Output "Invalid schedule frequency. Exiting."
+        try {
+            # Prompt for frequency with basic validation loop
+            $scheduleFrequency = ""
+            while ($scheduleFrequency -notin @("daily", "weekly")) {
+                $scheduleFrequency = Read-Host "How often do you want to run the backup? (daily/weekly)"
+                if ($scheduleFrequency -notin @("daily", "weekly")) {
+                    Write-Host "Invalid input. Please type 'daily' or 'weekly'."
+                }
+            }
+        
+            # Prompt for time
+            $scheduleTime = ""
+            while ($scheduleTime -notmatch "^\d{1,2}:\d{2}$") {
+                $scheduleTime = Read-Host "Enter the time for the task to run (e.g., 15:00)"
+                if ($scheduleTime -notmatch "^\d{1,2}:\d{2}$") {
+                    Write-Host "Invalid time format. Please enter in HH:mm format."
+                }
+            }
+        
+            # Prompt for day of week if weekly
+            if ($scheduleFrequency -eq "daily") {
+                $trigger = New-ScheduledTaskTrigger -Daily -At $scheduleTime
+            } elseif ($scheduleFrequency -eq "weekly") {
+                $dayOfWeek = ""
+                while ($dayOfWeek -notmatch "^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$") {
+                    $dayOfWeek = Read-Host "Enter the day of the week to run the backup (e.g., Monday)"
+                    if ($dayOfWeek -notmatch "^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$") {
+                        Write-Host "Invalid day. Please enter a full day of the week like 'Monday'."
+                    }
+                }
+                $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $dayOfWeek -At $scheduleTime
+            }
+        
+            # Use the .bat file instead of the .ps1 directly
+            $batPath = Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Definition) "run_wow_backup.bat"
+            if (-not (Test-Path $batPath)) {
+                throw "Batch file not found: $batPath"
+            }
+        
+            $action = New-ScheduledTaskAction -Execute $batPath
+        
+            # Remove existing task if it exists
+            if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
+                Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+            }
+        
+            # Register the task using the .bat
+            Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskName -Description "Automated backup for WowUI" -User $env:UserName -RunLevel Highest
+        
+            # Update config with Scheduled = true
+            $config = @{
+                Parent      = $config.Parent
+                Destination = $config.Destination
+                Scheduled   = $true
+            }            
+            $config | ConvertTo-Json | Set-Content -Path $configPath
+        
+            Write-Output "Scheduled task '$taskName' has been created and will run $scheduleFrequency at $scheduleTime."
+            Write-Host "`nPress any key to close..."
+            $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
             exit
         }
-
-        $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File `"$scriptPath`""
-
-        Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskName -Description "Automated backup for WowUI" -User $env:UserName -RunLevel Highest
-
-        Write-Output "Scheduled task '$taskName' created."
+        catch {
+            Write-Error "❌ Failed to create scheduled task: $_"
+            Write-Host "`nPress any key to close..."
+            $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+            exit
+        }
     }
 }
