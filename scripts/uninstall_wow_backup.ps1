@@ -18,7 +18,7 @@ if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
 }
 
 # Remove Config File
-$configPath = Join-Path $PSScriptRoot "wowUI_config.json"
+$configPath = Join-Path (Split-Path $PSScriptRoot -Parent) "wowUI_config.json"
 if (Test-Path $configPath) {
     Remove-Item $configPath -Force
     Write-Host "✅ Config file removed: $configPath"
