@@ -55,14 +55,17 @@ This will let you choose folders again and reconfigure the scheduler.
 
 🧹 Uninstalling / Removing the Task
 
+| `uninstall_run_wow_backup.bat` | Double-click to uninstall |
+
 To remove the scheduled task manually:
 
 Run in Powershell as admin: Unregister-ScheduledTask -TaskName "WowUI_Backup" -Confirm:$false
 
-To reset everything, delete:
+## 📁 Folder Structure
 
-    wowUI_config.json
-
-    The scheduled task (WowUI_Backup)
-
-    Any backup .zip files
+| Folder/File | Description |
+|-------------|-------------|
+| `scripts/wowBackup.ps1` | Main backup script |
+| `scripts/uninstall_wow_backup.ps1` | Uninstalls the scheduled task and config |
+| `run_wow_backup.bat` | Double-click to run the backup |
+| `uninstall_run_wow_backup.bat` | Double-click to uninstall |

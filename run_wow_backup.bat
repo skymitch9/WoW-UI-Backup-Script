@@ -2,7 +2,7 @@
 :: Batch file to launch wowBackup.ps1 with admin rights
 
 :: Set the full path to your PowerShell script
-set scriptPath=%~dp0wowBackup.ps1
+set scriptPath=%~dp0scripts\wowBackup.ps1
 
 :: Check if run from Task Scheduler (SESSIONNAME usually is "Console" or missing in Scheduled Tasks)
 setlocal EnableDelayedExpansion
